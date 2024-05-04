@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Movie Review Sentiment Analysis Web App</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+        }
+        #contact {
+            background-color:   #022a45;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+        }
+        #header {
+            background-color: #042633;
+            color: #fff;
+            height: 150px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container-custom {
+            background-color:  #b9d0d9;
+            text-align: center;
+            padding: 40px 0;
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+        }
+        .form-control, .btn {
+            margin: auto;
+            display: inline-block; /* Align buttons inline */
+        }
+        .btn-info {
+            margin-left: 2em; /* Space of 4 characters */
+        }
+        footer .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+    <script>
+        "use strict";
+        function submitForm(oFormElement) {
+            var movieName = document.getElementById('movieName').value;
+            var review = document.getElementById('review').value;
+
+            if (!movieName.trim() || !review.trim()) {
+                alert("Both movie name and review must be filled out.");
+                return false;
+            }
+
+            var xhr = new XMLHttpRequest();
+            xhr.onload = function() {
+                var result = parseFloat(xhr.responseText);
+                var resultElement = document.getElementById('result');
+                if (result === 0) {
+                    resultElement.className = 'bg-danger';
+                    resultElement.innerHTML = 'Your review was NEGATIVE!';
+                } else {
+                    resultElement.className = 'bg-success';
+                    resultElement.innerHTML = 'Your review was POSITIVE!';
+                }
+            }
+            xhr.open(oFormElement.method, oFormElement.action, true);
+            xhr.send("movieName=" + encodeURIComponent(movieName) + "&review=" + encodeURIComponent(review));
+            return false;
+        }
+        function refreshPage() {
+            window.location.reload();
+        }
+    </script>
+</head>
+<body>
+    <!-- Header Section -->
+    <div id="header">
+        <h1>Check the sentiment of your movie reviews</h1>
+    </div>
+
+    <!-- Movie Name Input Field and Form -->
+    <div class="container container-custom">
+        <h1>Want to check if your Movie Review is Positive or Negative?</h1>
+        <p>Enter the Movie Name and Write your review below and click submit to find out...</p>
+        <h2>Enter a Movie Name:</h2>
+        <input type="text" class="form-control" style="width: 50%;" id="movieName" placeholder="Type the movie name here...">
+        <form method="POST" action="https://vtfg80f45l.execute-api.us-east-2.amazonaws.com/Prod" onsubmit="return submitForm(this);">
+            <div class="form-group">
+              <h2>Review</h2>
+                <!-- <label for="review">Review</label> -->
+                <textarea class="form-control" style="width: 50%;" rows="5" id="review" placeholder="Please write your review here."></textarea>
+            </div>
+            <button type="submit" class="btn btn-default">Submit</button>
+            <button type="button" class="btn btn-default" onclick="refreshPage()">New Review</button>
+        </form>
+        <h1 class="bg-success" id="result"></h1>
+    </div>
+    <!-- Contact Us Section -->
+       <section id="contact">
+           <h2>Contact Me</h2>
+           <address>
+               <p>Please feel free to contact me for any query:</p>
+               <!-- Menu Links -->
+               <menu class="menu">
+               <li>Phone: <a href="tel:+1 (857) 398-5082">+1 (857) 398-5082</a></li>
+               <li>Email: <a href="mailto:kumar.deepa@northeastern.edu">kumar.deepa@northeastern.edu</a></li>
+               </menu>
+           </address>
+       </section>
+    <!-- Footer Section -->
+   <footer id="header">
+       <h1>©2024 - Movie Review Sentiment Analysis Web App</h1>
+       <br>
+   </footer>
+  </body>
+  </html>
